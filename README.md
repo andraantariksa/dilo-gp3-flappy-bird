@@ -4,7 +4,13 @@ A submission for a Game Programming course in [DILo Game Academy](https://academ
 
 ### Screenshot
 
-Not available, under development
+![Flappy bird main menu scene screenshot](Screenshot1.png)
+
+![Flappy bird game scene screenshot](Screenshot2.png)
+
+## Download
+
+See [releases](/releases/latest)
 
 ### License
 
