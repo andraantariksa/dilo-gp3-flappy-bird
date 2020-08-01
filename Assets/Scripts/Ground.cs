@@ -20,7 +20,7 @@ public class Ground : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!bird.IsDead)
+        if (!bird || !bird.IsDead)
         {
             transform.Translate(Vector3.left * speed * Time.deltaTime, Space.World);
         }
@@ -32,6 +32,10 @@ public class Ground : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        bird.Dead();
+        Bird birdCollideWith = other.gameObject.GetComponent<Bird>();
+        if (birdCollideWith)
+        {
+            birdCollideWith.Dead();
+        }
     }
 }

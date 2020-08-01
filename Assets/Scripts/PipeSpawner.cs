@@ -5,19 +5,25 @@ using UnityEngine;
 public class PipeSpawner : MonoBehaviour
 {
     [SerializeField]
-    private Bird bird;
+    private Bird bird = null;
     [SerializeField]
-    private Pipe pipeAbove;
+    private Pipe pipeAbove = null;
     [SerializeField]
-    private Pipe pipeBelow;
+    private Pipe pipeBelow = null;
     [SerializeField]
-    private float spawnInterval = 2.0f;
+    private float spawnIntervalMax = 4.0f;
+    [SerializeField]
+    private float spawnIntervalMin = 1.0f;
     [SerializeField]
     private float maxMinOffset = 1.0f;
     [SerializeField]
-    private float holeSize = 1.0f;
+    private float holeSizeMax = 1.5f;
+    [SerializeField]
+    private float holeSizeMin = 0.8f;
+    [SerializeField]
+    private PointBox pointBox = null;
 
-    private Coroutine coroutineSpawn;
+    private Coroutine coroutineSpawn = null;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +39,8 @@ public class PipeSpawner : MonoBehaviour
 
     public void SpawnPipe()
     {
+        float holeSize = Random.Range(holeSizeMin, holeSizeMax);
+
         Pipe newPipeAbove = Instantiate(pipeAbove, transform.position, Quaternion.Euler(0, 0, 180));
         newPipeAbove.gameObject.SetActive(true);
 
@@ -44,7 +52,12 @@ public class PipeSpawner : MonoBehaviour
         newPipeBelow.transform.position += Vector3.up * y;
 
         newPipeAbove.transform.position += Vector3.up * (holeSize / 2.0f);
-        newPipeBelow.transform.position += Vector3.down * (holeSize / 2.0f);    }
+        newPipeBelow.transform.position += Vector3.down * (holeSize / 2.0f);
+
+        PointBox newPointBox = Instantiate(pointBox, transform.position, Quaternion.identity);
+        newPointBox.gameObject.SetActive(true);
+        newPointBox.transform.position += Vector3.up * y;
+    }
 
     public void SpawnPipe(Pipe pipe)
     {
@@ -76,8 +89,12 @@ public class PipeSpawner : MonoBehaviour
             {
                 StopSpawn();
             }
-            
-            SpawnPipe();
+            else
+            {
+                SpawnPipe();
+            }
+
+            float spawnInterval = Random.Range(spawnIntervalMin, spawnIntervalMax);
 
             yield return new WaitForSeconds(spawnInterval);
         }

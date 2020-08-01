@@ -5,9 +5,9 @@ using UnityEngine;
 public class GroundSpawner : MonoBehaviour
 {
     [SerializeField]
-    private Ground groundRef;
+    private Ground groundRef = null;
     
-    private Ground prevGround;
+    private Ground prevGround = null;
 
     // Start is called before the first frame update
     void Start()

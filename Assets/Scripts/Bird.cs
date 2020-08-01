@@ -13,6 +13,10 @@ public class Bird : MonoBehaviour
     private UnityEvent OnJump = null;
     [SerializeField]
     private UnityEvent OnDead = null;
+    [SerializeField]
+    private UnityEvent OnFire = null;
+    [SerializeField]
+    private FireBall fireBall = null;
     
     private Rigidbody2D rigidbody2D = null;
     private Animator animator = null;
@@ -27,9 +31,11 @@ public class Bird : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsDead && Input.GetMouseButtonDown(0))
+        if (!IsDead)
         {
-            Jump();
+            if (Input.GetMouseButtonDown(0)) Jump();
+
+            if (Input.GetMouseButtonDown(1)) Fire();
         }
     }
 
@@ -51,8 +57,18 @@ public class Bird : MonoBehaviour
         OnJump.Invoke();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)    
+    void Fire()
     {
-        animator.enabled = false;
+        FireBall newFireBall = Instantiate(fireBall, transform.position, Quaternion.identity);
+        newFireBall.gameObject.SetActive(true);
+        OnFire.Invoke();
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)    
+    {
+        if (other.gameObject.tag == "Obstacle")
+        {
+            animator.enabled = false;
+        }
     }
 }
